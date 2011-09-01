@@ -266,11 +266,19 @@ class NadsController < ApplicationController
     
     def choose_best_from_creditors(fromdomain)
       #TODO : TEST CON UN DOMINIO SENZA CREDITORS
-      
-      creditors = fromdomain.creditors.uniq
-      for creditor in creditors
-        creditor_relationships = creditor.relationships.select{|c| c.created_at < Date.today}.select{|d| d.debtor_id == fromdomain.id}
-      end
+      #trova tutte le relazioni del dominio creditore create prima di oggi
+      #creditors = fromdomain.creditors.uniq
+      #for creditor in creditors
+      #  fromdomain_debt_relationships = creditor.relationships.select{|c| c.created_at < Date.today}.select{|d| d.debtor_id == fromdomain.id}
+      #  fromdomain_debts = fromdomain_debt_relationships.length
+
+      #  fromdomain_credit_relationships = fromdomain.relationships.select{|c| c.created_at < Date.today}.select{|d| d.debtor_id == creditor.id}
+      #  fromdomain_credits = fromdomain_credit_relationships.length
+
+      #  if fromdomain_debts > fromdomain_credits
+      #    return creditor
+      #  end  
+      #end
       
       number_of_creditors = []
       for creditor in fromdomain.creditors
@@ -290,8 +298,17 @@ class NadsController < ApplicationController
 
           #trova i crediti e i debiti del fromdomain nei confronti del todomain
           todomain = chosen.domain
-          fromdomain_credits = todomain.creditors.find_all_by_id(fromdomain.id).length
-          fromdomain_debts = todomain.debtors.find_all_by_id(fromdomain.id).length
+          
+          #con questo vengono escluse tutte le relazioni più recenti di ieri
+          fromdomain_credit_relationships = fromdomain.relationships.select{|c| c.created_at < Date.today}.select{|d| d.debtor_id == todomain.id}
+          fromdomain_credits = fromdomain_credit_relationships.length
+          #fromdomain_credits = todomain.creditors.find_all_by_id(fromdomain.id).length
+          
+          
+          fromdomain_debt_relationships = todomain.relationships.select{|c| c.created_at < Date.today}.select{|d| d.debtor_id == fromdomain.id}
+          fromdomain_debts = fromdomain_debt_relationships.length
+          #fromdomain_debts = todomain.debtors.find_all_by_id(fromdomain.id).length
+          
           #visualizza il nad solo se il fromdomain è in debito col todomain
           if chosen && (fromdomain_debts > fromdomain_credits)
             return chosen
@@ -309,6 +326,10 @@ class NadsController < ApplicationController
     	
     	#per ogni nad
       for nad in @nad do
+        
+        #TODO: INTEGRALO NELLA RIGA DI CODICE DOPO
+        View.find(:all, :conditions => ["created_at < ?", Date.today])
+        
         #controlla quante visualizzazioni ha sul fromdomain
         n = nad.views.find_all_by_viewedon(fromdomain.id).length
         nadid = nad.id
