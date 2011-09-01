@@ -120,7 +120,7 @@ class NadsController < ApplicationController
   
   
   def serve
-    #TODO: AGGIUNGERE UN PO' DI ROTAZIONE, IN MODO CHE NON SIANO VISUALIZZATI SEMPRE E SOLO GLI AD CON PIUì CREDITI
+    #TODO: MIGLIORARE LA ROTAZIONE, IN MODO CHE NON SIANO VISUALIZZATI SEMPRE E SOLO GLI AD CON PIUì CREDITI
     
     #QUESTO SISTEMA NON E' MOLTO EFFICIENTE ED E' PIUTTOSTO COMPUTATIONALLY INTENSIVE... TROVA QUALCOSA DI MEGLIO
     @fromdomain = Domain.find_by_name(params[:fromdomain])
@@ -129,8 +129,17 @@ class NadsController < ApplicationController
     #COMMENT OUT LINES 129, 132, 134, 162 PER AVERE LA VERSIONE FUNZIONANTE DI PRIMA DEL VIAGGIO SAN FRANCISCO - PHILADELPHIA, SENZA L' ABBOZZO DEL CALCOLO DEI CREDITI
     #------------------------------------------------------------------------------------------------------------------------------------------------------------------
     
-    #trova il nad migliore fra quelli dei domini creditori di fromdomain
-    @nad = choose_best_from_creditors(@fromdomain)
+    
+    #una volta ogni 10 impressioni viene scelto un nad in modo democratico
+    #ROTAZIONE, DA MIGLIORARE
+    democracy = (0..10).to_a
+    oracle = democracy.choice
+    if oracle == 3
+      @nad = nil
+    else
+      #trova il nad migliore fra quelli dei domini creditori di fromdomain
+      @nad = choose_best_from_creditors(@fromdomain)
+    end
     
     #se il nad è stato trovato tra quelli creditori visualizza quello, altrimenti...
     if @nad
@@ -266,6 +275,20 @@ class NadsController < ApplicationController
     
     def choose_best_from_creditors(fromdomain)
       #TODO : TEST CON UN DOMINIO SENZA CREDITORS
+      #trova tutte le relazioni del dominio creditore create prima di oggi
+      #creditors = fromdomain.creditors.uniq
+      #for creditor in creditors
+      #  fromdomain_debt_relationships = creditor.relationships.select{|c| c.created_at < Date.today}.select{|d| d.debtor_id == fromdomain.id}
+      #  fromdomain_debts = fromdomain_debt_relationships.length
+
+      #  fromdomain_credit_relationships = fromdomain.relationships.select{|c| c.created_at < Date.today}.select{|d| d.debtor_id == creditor.id}
+      #  fromdomain_credits = fromdomain_credit_relationships.length
+
+      #  if fromdomain_debts > fromdomain_credits
+      #    return creditor
+      #  end  
+      #end
+      
       number_of_creditors = []
       for creditor in fromdomain.creditors
         number_of_creditors << creditor.id
@@ -274,6 +297,7 @@ class NadsController < ApplicationController
         # make the hash default to 0 so that += will work correctly
         b = Hash.new(0)
         # iterate over the array, counting duplicate entries
+        #conta il numero di id e le mette in un hash del tipo {id19 => number143}
         number_of_creditors.each do |v|
           b[v] += 1
         end
@@ -284,8 +308,17 @@ class NadsController < ApplicationController
 
           #trova i crediti e i debiti del fromdomain nei confronti del todomain
           todomain = chosen.domain
-          fromdomain_credits = todomain.creditors.find_all_by_id(fromdomain.id).length
-          fromdomain_debts = todomain.debtors.find_all_by_id(fromdomain.id).length
+          
+          #con questo vengono escluse tutte le relazioni più recenti di ieri
+          #DELAYED_CLICK_EFFECT
+          fromdomain_credit_relationships = fromdomain.relationships.select{|c| c.created_at < Date.today}.select{|d| d.debtor_id == todomain.id}
+          fromdomain_credits = fromdomain_credit_relationships.length
+          #fromdomain_credits = todomain.creditors.find_all_by_id(fromdomain.id).length
+          
+          fromdomain_debt_relationships = todomain.relationships.select{|c| c.created_at < Date.today}.select{|d| d.debtor_id == fromdomain.id}
+          fromdomain_debts = fromdomain_debt_relationships.length
+          #fromdomain_debts = todomain.debtors.find_all_by_id(fromdomain.id).length
+          
           #visualizza il nad solo se il fromdomain è in debito col todomain
           if chosen && (fromdomain_debts > fromdomain_credits)
             return chosen
@@ -303,6 +336,10 @@ class NadsController < ApplicationController
     	
     	#per ogni nad
       for nad in @nad do
+        
+        #TODO: INTEGRALO NELLA RIGA DI CODICE DOPO
+        View.find(:all, :conditions => ["created_at < ?", Date.today])
+        
         #controlla quante visualizzazioni ha sul fromdomain
         n = nad.views.find_all_by_viewedon(fromdomain.id).length
         nadid = nad.id
