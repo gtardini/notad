@@ -1,0 +1,36 @@
+tourl: <%= @tourl %><br>
+todomain: <%= @todomain.name %><br>
+
+fromdomain: <%= @fromdomain.name %><br>
+
+<br>
+
+@fromdomain debtors: 
+
+
+<%= 
+
+#ricordati che è un array associativo e quindi non puoi fare semplicemente " for i in @fromdomain.debtors do i.id end"
+@fromdomain.debtors.inspect
+
+ %>
+
+<br><br><br>
+
+
+@fromdomain creditors:
+
+<%=
+
+@fromdomain.creditors.inspect
+
+%>
+
+<br><br><br>
+
+@nad views:
+
+<%=
+
+View.find_all_by_viewedon(20)
+%>

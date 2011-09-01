@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  nad_id: 1
+  viewedon: 1
+
+two:
+  nad_id: 1
+  viewedon: 1

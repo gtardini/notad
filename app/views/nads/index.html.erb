@@ -1,0 +1,33 @@
+<h1>Listing nads</h1>
+
+<table>
+  <tr>
+    <th>Outboundlink</th>
+    <th>Imgurl</th>
+    <th>Head</th>
+    <th>Caption</th>
+    <th>Approved</th>
+	<th>Domain_id</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @nads.each do |nad| %>
+  <tr>
+    <td><%= nad.outboundlink %></td>
+    <td><%= nad.imgurl %></td>
+    <td><%= nad.head %></td>
+    <td><%= nad.caption %></td>
+    <td><%= nad.approved %></td>
+	<td><%= nad.domain_id %></td>
+    <td><%= link_to 'Show', nad %></td>
+    <td><%= link_to 'Edit', edit_nad_path(nad) %></td>
+    <td><%= link_to 'Destroy', nad, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Nad', new_nad_path %>
