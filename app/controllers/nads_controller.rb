@@ -266,6 +266,12 @@ class NadsController < ApplicationController
     
     def choose_best_from_creditors(fromdomain)
       #TODO : TEST CON UN DOMINIO SENZA CREDITORS
+      
+      creditors = fromdomain.creditors.uniq
+      for creditor in creditors
+        creditor_relationships = creditor.relationships.select{|c| c.created_at < Date.today}.select{|d| d.debtor_id == fromdomain.id}
+      end
+      
       number_of_creditors = []
       for creditor in fromdomain.creditors
         number_of_creditors << creditor.id
