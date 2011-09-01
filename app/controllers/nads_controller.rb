@@ -129,6 +129,8 @@ class NadsController < ApplicationController
     #COMMENT OUT LINES 129, 132, 134, 162 PER AVERE LA VERSIONE FUNZIONANTE DI PRIMA DEL VIAGGIO SAN FRANCISCO - PHILADELPHIA, SENZA L' ABBOZZO DEL CALCOLO DEI CREDITI
     #------------------------------------------------------------------------------------------------------------------------------------------------------------------
     
+    #TODO: EVERY X IMPRESSIONS DISPLAY A NAD THROUGH CHOOSE_LESS_VIEWED AND NOT CHOOSE_BEST_FROM_CREDITORS
+    
     #trova il nad migliore fra quelli dei domini creditori di fromdomain
     @nad = choose_best_from_creditors(@fromdomain)
     
@@ -303,7 +305,6 @@ class NadsController < ApplicationController
           fromdomain_credit_relationships = fromdomain.relationships.select{|c| c.created_at < Date.today}.select{|d| d.debtor_id == todomain.id}
           fromdomain_credits = fromdomain_credit_relationships.length
           #fromdomain_credits = todomain.creditors.find_all_by_id(fromdomain.id).length
-          
           
           fromdomain_debt_relationships = todomain.relationships.select{|c| c.created_at < Date.today}.select{|d| d.debtor_id == fromdomain.id}
           fromdomain_debts = fromdomain_debt_relationships.length
