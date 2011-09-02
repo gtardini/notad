@@ -41,7 +41,7 @@ a.logo span {display:none;}
 
 /* Top Black Block */
 .thirdstripe {background-color:#F2B705;padding:0;color:#157d7d;}
-.thirdstripe-container {background: #F2B705 url('../images/orangebg.png') repeat-y;width:1100px;margin:auto;padding:55px 0 0 0;}
+.thirdstripe-container {background: #F2B705 url('../images/orangebg.png') repeat-y;width:1200px;margin:auto;padding:55px 0 0 0;}
 .thirdstripe h1 {font-weight:normal;font-size:80px;line-height:67px;letter-spacing:-2px;padding:0;margin:0;text-transform:uppercase;color:#157d7d;}
 .thirdstripe-left {width:720px;float:left;padding:0 80px 40px 0;}
 .thirdstripe-right {width:205px;float:left;padding:0 60px 0 35px;color:#157d7d;font-size:16px;line-height:20px;}
