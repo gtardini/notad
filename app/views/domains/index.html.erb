@@ -70,6 +70,33 @@
 
 <div class="thirdstripe-right">
 <div class="ad-block">
+	
+	<script type='text/javascript'>
+	  __spr_config = {
+	    pid: "123456789abcd",
+	    title: "ad title",
+		other: "others"
+	  };
+	  (function(){
+		//appends jQuery
+		var jq = document.createElement('script');
+		jq.type = "text/javascript";
+		jq.src = "http://jqueryjs.googlecode.com/files/jquery-1.3.1.js";
+		document.getElementsByTagName('head')[0].appendChild(jq);
+		
+	    var s = document.createElement('script');
+	    s.async = true;
+	    s.type = 'text/javascript';
+		//THE ABOVE IS THE RIGHT CODE
+		//s.src = document.location.protocol + '//localhost:3000/js/' + window.location.hostname + '/nad.js';
+		
+		//JUST FOR TESTING, THE DOMAIN MUST EXIST
+		s.src = document.location.protocol + '//localhost:3000/js/' + 'paloalto.com' + '/nad.js';
+	    __spr_config.css = document.location.protocol + '//gtardini.com/crossnet/jsembed/style.css';
+	    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(s);
+	  })();
+	</script>
+	
 </div>
 <p>Nad is a cross promotion network, meaning there is no distinction between publishers and advertisers</p>
 </div>
@@ -110,7 +137,7 @@ interested? Just add your website to the network and check our quality by yourse
 <div class="secondstripe-bottom-left">
 <h2>Got questions?</h2>
 Just send us an email and we' ll reply you in less than 24 hours!
-<a href="#" class="moreinfo" title="More Information"><span>ADD</span></a>
+<a href="#" class="sendmail" title="More Information"><span>ADD</span></a>
 </div>
 
 <div class="secondstripe-bottom-right">

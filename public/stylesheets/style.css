@@ -60,6 +60,10 @@ a.buynow span {display:none;}
 a.moreinfo {display:block;width:156px;height:53px;background: url('../images/button-moreinfo.png') no-repeat top left;margin:20px 0 0 0;}
 a.moreinfo:hover {display:block;background: url('../images/button-moreinfo.png') no-repeat 0 -55px;}
 a.moreinfo span {display:none;}
+a.sendmail {display:block;width:156px;height:53px;background: url('../images/button-sendmail.png') no-repeat top left;margin:20px 0 0 0;}
+a.sendmail:hover {display:block;background: url('../images/button-sendmail.png') no-repeat 0 -55px;}
+a.sendmail span {display:none;}
+
 
 /* Bottom Green Block */
 .secondstripe-bottom {background-color:#F25C05;padding:0;color:#ffffff;}
