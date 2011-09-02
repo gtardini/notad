@@ -224,12 +224,12 @@ class NadsController < ApplicationController
       	var nad = document.createElement('div');
       	nad.setAttribute(\"id\", \"nad\");
       	nad.setAttribute(\"class\", \"boxgrid caption\")
-      	document.getElementsByTagName('body')[0].appendChild(nad);
 
       	//fills NAD canvas with actual elements
       	//TODO don't make them appear as long as they aren't styled
       	j.onload = function(){
-      		document.getElementById(\"nad\").innerHTML = \"<img src='http://gtardini.com/crossnet/jsembed/nonsense.jpg'></img><div class='cover boxcaption'><h3>HEAD</h3><p>CAPTION<br/><a href='#{@outboundlink}'>http://#{linkname}</a></p></div>\";
+      	  document.getElementById('adblock').appendChild(nad)
+      		nad.innerHTML = \"<img src='http://gtardini.com/crossnet/jsembed/nonsense.jpg'></img><div class='cover boxcaption'><h3>HEAD</h3><p>CAPTION<br/><a href='#{@outboundlink}'>http://#{linkname}</a></p></div>\";
       		//adds	js controllers and effects, needs jQuery
         	$('.boxgrid.slidedown').hover(function(){
         		$(\".cover\", this).stop().animate({top:'-260px'},{queue:false,duration:300});
